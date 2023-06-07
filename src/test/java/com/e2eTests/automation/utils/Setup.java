@@ -1,8 +1,5 @@
 package com.e2eTests.automation.utils;
 
-
-import java.sql.DriverManager;
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,24 +18,24 @@ public class Setup {
 	 * Cal browser with the design factory navigator
 	 */
 	public static void setup() {
-	driverManager = DriverManagerfactory.getManager(DriverType.FIREFOX);
-	driver = driverManager.getDriver('');}
-	
+	driverManager = DriverManagerFactory.getManager(DriverType.CHROME);
+	driver = driverManager.getDriver(); 
+	}
  @After
         /**
 		 * 	
 		 */
      
-	public void embedScreen (Scenario scenario) {
-		if ( scenario.isFailed()) {
+ public void embedScreenshot(Scenario scenario) {
+		if (scenario.isFailed()) {
 			try {
-				scenario.write("current page URL is: "+driver.getCurrentUrl());
-				byte [] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
-		scenario.embed(screenshot,"image/ong");
-			}catch (WebDriverException somePlateformDontScreenshots ){
-				System.err.println(somePlateformDontScreenshots.getMessage());
+				scenario.write("Current page URL is " +driver.getCurrentUrl());
+				byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+				scenario.embed(screenshot, "image/png");
+			}catch (WebDriverException somePlateformDontSupportScreenshots) {
+				System.err.println(somePlateformDontSupportScreenshots.getMessage());
 			}
-	}
+		}
 	driver.quit();
 }
 }
